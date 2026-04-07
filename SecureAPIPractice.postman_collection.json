@@ -1,0 +1,209 @@
+{
+  "info": {
+    "_postman_id": "6d71d473-8d8e-42ce-bb95-3873fe734fbf",
+    "name": "SecureAPIPractice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49135594",
+    "_collection_link": "https://go.postman.co/collection/49135594-6d71d473-8d8e-42ce-bb95-3873fe734fbf?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Email\": \"mostafa00@test.com\",\r\n    \"Username\": \"Mostafa0x000\",\r\n    \"FirstName\": \"Mostafa\",\r\n    \"LastName\": \"Elgamal\",\r\n    \"Password\": \"@Sasa100\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7020/api/auth/register",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetToken(Login)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Email\":\"mostafa0@test.com\",\r\n    \"Password\":\"@Sasa100\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7020/api/auth/token",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AddRoleToUser",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"UserId\":\"4c36ad22-e7b1-42a4-8be1-46f8c02a046f\",\r\n    \"Role\":\"Admin\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7020/api/auth/addrole",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "auth",
+            "addrole"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SecuredAPI",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNb3N0YWZhMHgwMCIsImp0aSI6IjEyOGQ2YTQxLWRmMmEtNDg1ZC1hZmNjLTkxMWRmOTViOGMwMCIsImVtYWlsIjoibW9zdGFmYTBAdGVzdC5jb20iLCJ1aWQiOiI0YzM2YWQyMi1lN2IxLTQyYTQtOGJlMS00NmY4YzAyYTA0NmYiLCJyb2xlcyI6WyJBZG1pbiIsIlVzZXIiXSwiZXhwIjoxNzc1NTY1NTIyLCJpc3MiOiJNeUFwaSIsImF1ZCI6Ik15QXBpVXNlcnMifQ.4hR85pt3iK0y3KAbWc3925nWgw5nsQCbZsTjUKMhXBY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Email\": \"mostafa@test.com\",\r\n    \"Username\": \"Mostafa0x0\",\r\n    \"FirstName\": \"Mostafa\",\r\n    \"LastName\": \"Elgamal\",\r\n    \"Password\": \"@Sasa200\"\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7020/api/secured",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "secured"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RevokeToken",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"token\": \"EP7cSkhyiiSJ%2FeDH0OOMq5Aila2b1oKYku1JjbYzuaA%3D\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7020/api/auth/revoketoken",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "auth",
+            "revoketoken"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RefreshToken",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7020/api/auth/refreshtoken",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "auth",
+            "refreshtoken"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
