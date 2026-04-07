@@ -55,6 +55,7 @@ A secure ASP.NET Core Web API implementing **Authentication & Authorization** us
    dotnet run
 
 5. **Test the API:**
+6. (There is collection of Postman APIs in project folder)
    - Register a user: POST /api/auth/register
    - Login: POST /api/auth/token
    - Add role: POST /api/auth/addrole
