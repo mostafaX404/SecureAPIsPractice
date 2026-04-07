@@ -11,5 +11,7 @@ namespace SecureAPIsPractice.Models
         [MaxLength(20)]
         public required string LastName { get; set; }
 
+        public List<RefreshToken> RefreshTokens { get; set; }
+
     }
 }

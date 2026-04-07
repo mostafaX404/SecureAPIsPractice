@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Project;
 using SecureAPIsPractice.Interfaces;
 using SecureAPIsPractice.Models;
 using SecureAPIsPractice.Services;
+using System.Net;
 
 namespace SecureAPIsPractice.Controllers
 {
@@ -34,6 +36,9 @@ namespace SecureAPIsPractice.Controllers
                 return BadRequest(result.Message);
             }
 
+            SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);
+
+
             return Ok(result);
 
         }
@@ -53,12 +58,17 @@ namespace SecureAPIsPractice.Controllers
                 return BadRequest(result.Message);
             }
 
+            if (!string.IsNullOrEmpty(result.RefreshToken))
+            {
+                SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);
+            }
+
             return Ok(result);
 
         }
 
         [HttpPost("addrole")]
-        public async Task<IActionResult> AddRoleAsync(AddRoleModel addRoleModel)
+        public async Task<IActionResult> AddRoleAsync([FromBody] AddRoleModel addRoleModel)
         {
             if (!ModelState.IsValid)
             {
@@ -75,5 +85,60 @@ namespace SecureAPIsPractice.Controllers
             return Ok(addRoleModel);
 
         }
+
+        [HttpGet("refreshtoken")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var token = Request.Cookies["refreshToken"];
+
+            var result  = await _authService.RefreshTokenAsync(token);
+
+            if (!result.IsAuthenticated)
+            {
+                return BadRequest(result);
+            }
+
+            SetRefreshTokenInCookie(result.RefreshToken,result.RefreshTokenExpiration);
+
+            return Ok(result);
+        }
+
+        [HttpPost("revoketoken")]
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenModel?  model)
+        {
+            
+            model.Token = model.Token ??  Request.Cookies["refreshToken"];
+            
+
+            if (string.IsNullOrEmpty(model.Token))
+            {
+                return BadRequest("Model Is Required");
+            }
+
+            var decodedToken = WebUtility.UrlDecode(model.Token);
+
+            var result = await _authService.RevokeRefreshToken(decodedToken);
+
+            if (!result)
+            {
+                return BadRequest("Token is invalid ");
+            }
+
+            return Ok("Token is revoked successfully");
+        }
+
+        private void SetRefreshTokenInCookie(string refreshToken, DateTime expiresOn)
+        {
+            CookieOptions options = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = expiresOn.ToLocalTime()
+            };
+
+            Response.Cookies.Append("refreshToken",refreshToken, options);
+        }
+    
+    
+        
     }
 }
