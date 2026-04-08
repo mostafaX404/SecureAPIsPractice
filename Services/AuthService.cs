@@ -33,9 +33,9 @@ namespace SecureAPIsPractice.Services
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
             var role = await _roleManager.RoleExistsAsync(model.Role);
-            if (user is null || role)
+            if (user is null || role is false)
             {
-                return "user not found";
+                return "user or role not found";
             }
 
             if(await _userManager.IsInRoleAsync(user, model.Role))
@@ -103,14 +103,7 @@ namespace SecureAPIsPractice.Services
 
             //maping the model to the form of the application user that user manager accept
             var user = _mapper.Map<ApplicationUser>(model);
-            //var user = new ApplicationUser
-            //{
-            //    UserName = model.Username,
-            //    Email = model.Email,
-            //    FirstName = model.FirstName,
-            //    LastName = model.LastName
-            //};
-
+        
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
@@ -123,9 +116,15 @@ namespace SecureAPIsPractice.Services
                 }
                 return new AuthModel { Message = errors };
             }
+
             await _userManager.AddToRoleAsync(user, "User");
 
             var jwtSecurityToken = await CreateJwtToken(user);
+            var newRefreshToken = GenerateRefreshToken();
+
+            user.RefreshTokens.Add(newRefreshToken);
+
+            await _userManager.UpdateAsync(user);
 
             return new AuthModel
             {
@@ -134,7 +133,9 @@ namespace SecureAPIsPractice.Services
                 IsAuthenticated = true,
                 Roles = new List<string> { "User" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                Username = user.UserName
+                Username = user.UserName,
+                RefreshToken = newRefreshToken.Token,
+                RefreshTokenExpiration = newRefreshToken.ExpiresOn
             };
         }
 
@@ -146,7 +147,7 @@ namespace SecureAPIsPractice.Services
 
             foreach (var role in roles)
             {
-                roleClaims.Add(new Claim("roles", role));
+                roleClaims.Add(new Claim(ClaimTypes.Role, role));
             }
 
             var claims = new[]
@@ -171,22 +172,6 @@ namespace SecureAPIsPractice.Services
             );
 
             return jwtSecurityToken;
-        }
-
-        private RefreshToken GenerateRefreshToken(int size = 32)
-        {
-            var randomNumber = new byte[size];
-
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-            }
-            return new RefreshToken
-            {
-                Token = Convert.ToBase64String(randomNumber) , 
-          
-                ExpiresOn = DateTime.UtcNow.AddDays(2)
-            };
         }
 
 
@@ -255,6 +240,21 @@ namespace SecureAPIsPractice.Services
             await _userManager.UpdateAsync(user);
 
             return true; 
+        }
+        private RefreshToken GenerateRefreshToken(int size = 32)
+        {
+            var randomNumber = new byte[size];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+            }
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(randomNumber) , 
+          
+                ExpiresOn = DateTime.UtcNow.AddDays(2)
+            };
         }
     }
 }

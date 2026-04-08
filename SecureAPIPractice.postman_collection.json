@@ -14,7 +14,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"Email\": \"mostafa00@test.com\",\r\n    \"Username\": \"Mostafa0x000\",\r\n    \"FirstName\": \"Mostafa\",\r\n    \"LastName\": \"Elgamal\",\r\n    \"Password\": \"@Sasa100\"\r\n}",
+          "raw": "{\r\n    \"Email\": \"User@test.com\",\r\n    \"Username\": \"User\",\r\n    \"FirstName\": \"FUser\",\r\n    \"LastName\": \"LUser\",\r\n    \"Password\": \"@Sasa200\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -44,7 +44,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"Email\":\"mostafa0@test.com\",\r\n    \"Password\":\"@Sasa100\"\r\n}",
+          "raw": "{\r\n    \"Email\":\"ٍAdmin@test.com\",\r\n    \"Password\":\"@Sasa200\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -74,7 +74,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"UserId\":\"4c36ad22-e7b1-42a4-8be1-46f8c02a046f\",\r\n    \"Role\":\"Admin\"\r\n}",
+          "raw": "{\r\n    \"UserId\":\"d99fe352-ed23-46ab-824e-c34e4482d864\",\r\n    \"Role\":\"Admin\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -200,6 +200,68 @@
             "api",
             "auth",
             "refreshtoken"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AdminsOnly",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBZG1pbiIsImp0aSI6IjE4NTJjYjRjLWZiMTYtNDZlZS04OTllLTFiNDU5NDgzN2Y5MiIsImVtYWlsIjoi2Y1BZG1pbkB0ZXN0LmNvbSIsInVpZCI6IjFiOWVhMGUxLWFlOGUtNDE1OC1hY2ViLTc1MjRlYTA4OWEyNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJBZG1pbiIsIlVzZXIiXSwiZXhwIjoxNzc1NjUwMDkxLCJpc3MiOiJNeUFwaSIsImF1ZCI6Ik15QXBpVXNlcnMifQ.jdywS_n1Px14yYWz2HXEI_NNbrlD2xFlIgoEBgf3irs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7020/api/TestRoles/adminsonly",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "TestRoles",
+            "adminsonly"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UsersOnly",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNb3N0YWZhMHgwIiwianRpIjoiOWE1Mzk2MjgtZjE4MC00MDIxLWFjMzEtZDVkMzIzZDg2ZGY0IiwiZW1haWwiOiLZjU1vc3RhZmFAdGVzdC5jb20iLCJ1aWQiOiIwYmRmNDhlZS0wMzc1LTRiN2UtYmExYi02YTQ5NWJhMTUzMmMiLCJyb2xlcyI6IlVzZXIiLCJleHAiOjE3NzU2NDk2NjEsImlzcyI6Ik15QXBpIiwiYXVkIjoiTXlBcGlVc2VycyJ9.XG2RoMk7AVy5OSKKFpsVLx8iAuFSXHrGYRQsIffafdc",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7020/api/TestRoles/usersonly",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7020",
+          "path": [
+            "api",
+            "TestRoles",
+            "usersonly"
           ]
         }
       },
